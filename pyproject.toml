@@ -3,7 +3,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "flask-pubsub"
+name = "flask-gcp-pubsub"
 authors = [
     {name = "WildSys", email = "hello@wildsys.io"}
 ]
@@ -22,7 +22,7 @@ dynamic = ["version"]
 
 [tool.poetry]
 packages = [
-    {include = "flask_pubsub", from = "src/flask_pubsub"}
+    {include = "flask_gcp_pubsub", from = "src/flask_gcp_pubsub"}
 ]
 
 [tool.pytest.ini_options]
