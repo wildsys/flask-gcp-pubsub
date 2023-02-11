@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "flask-pubsub"
+authors = [
+    {name = "WildSys", email = "hello@wildsys.io"}
+]
+description = "Google Pub/Sub as task manager, like Celery can do"
+requires-python = ">=3.9"
+keywords = ["cloud pubsub", "tasks", 'flask']
+classifiers = [
+    "Framework :: Flask",
+    "Programming Language :: Python :: 3"
+]
+dependencies = [
+    "flask>=2.2,<2.3",
+    "google-cloud-pubsub==2.14.1"
+]
+dynamic = ["version"]
+
+[tool.poetry]
+packages = [
+    {include = "flask_pubsub", from = "src/flask_pubsub"}
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = ["error"]

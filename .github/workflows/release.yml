@@ -1,0 +1,14 @@
+name: Release application
+on:
+  push:
+    branches:
+      - main
+jobs:
+  pypi:
+    - uses: actions/checkout@v3
+    - name: 🔢 Register new release
+      uses: relekang/python-semantic-release@master
+      with:
+        github_token: ${{ secrets.GH_TOKEN }}
+        repository_username: __token__
+        repository_password: ${{ secrets.PYPI_API_TOKEN }}
