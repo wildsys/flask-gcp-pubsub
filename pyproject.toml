@@ -31,6 +31,9 @@ packages = [
     {include = "flask_gcp_pubsub", from = "src/flask_gcp_pubsub"}
 ]
 
+[tool.semantic_release]
+version_toml = "pyproject.toml:tool.poetry.version"
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 filterwarnings = ["error"]
