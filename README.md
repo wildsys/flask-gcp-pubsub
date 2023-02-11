@@ -43,7 +43,7 @@ This package is given "as it", without garantees, under the GPLv3 License.
 ### Installation
 
 ```python
-pip install flask-pubsub
+pip install flask-gcp-pubsub
 ```
 
 ### Full example
