@@ -22,9 +22,9 @@ As Celery, but in a lighter version, this package allows you to run operations a
 
 Technically, this package can run without Flask, but, historically, it comes to have a quick-win for migrating to GCP Cloud Run using the Pub/Sub system, from an existing project using Flask + Celery.
 
-This package aims to remove some painful useless tasks by:
+This package aims to remove some painful tasks by:
 - Creating one dedicated topic for each function
-- Creating one dedicated subscription for each function
+- Creating one dedicated reusable subscription for each function
 
 We **do not recommand** this package for the following cases:
 - You need to reuse your development in a multi-cloud context
@@ -130,6 +130,7 @@ status=processed message_id=6860318059876990 function=my_task result=ok executio
 - [ ] Priority in the treatment of messages per functions
 - [ ] Logging instead of print (+ option to format as JSON)
 - [ ] Contributing manual
+- [ ] Documentation about Flask configuration keys and their counterpart on PubSub direct call
 
 ### TO BE CONFIRMED
 
