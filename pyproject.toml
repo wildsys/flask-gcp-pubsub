@@ -27,6 +27,13 @@ version = "0.0.1"
 "Bug Tracker" = "https://github.com/wildsys/flask-gcp-pubsub/issues"
 
 [tool.poetry]
+name = "flask-gcp-pubsub"
+version = "0.0.1"
+description = "Google Pub/Sub as task manager, like Celery can do"
+license = "GPL-3.0-or-later"
+authors = [
+    "WildSys <hello@wildsys.io>"
+]
 packages = [
     {include = "flask_gcp_pubsub", from = "src/flask_gcp_pubsub"}
 ]
