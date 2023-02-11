@@ -1,8 +1,8 @@
 # Flask GCP Pub/Sub
 
-Lite distributed task queue using GCP Pub/Sub
+Lite distributed task queue using Google Cloud Platform (GCP) Pub/Sub
 
-[![GNU GPLv3](https://img.shields.io/github/license/wildsys/flask-pubsub)](https://www.gnu.org/licenses/gpl-3.0.html) [![PyPI version](https://img.shields.io/pypi/v/flask-gcp-pubsub)](https://github.com/raicheff/flask-gcp-pubsub)
+[![PyPI version](https://img.shields.io/pypi/v/flask-gcp-pubsub)](https://github.com/raicheff/flask-gcp-pubsub) [![PyPI downloads](https://img.shields.io/pypi/dm/flask-gcp-pubsub)](https://github.com/raicheff/flask-gcp-pubsub) [![GNU GPLv3](https://img.shields.io/github/license/wildsys/flask-pubsub)](https://www.gnu.org/licenses/gpl-3.0.html)
 
 <!-- TOC depthfrom:2 -->
 
@@ -38,6 +38,8 @@ This package is given "as it", without garantees, under the GPLv3 License.
 
 - A [Google Cloud account](https://console.cloud.google.com/)
 - A GCP project ([here to create a new one](https://console.cloud.google.com/projectcreate)), with [Pub/Sub API enabled](https://console.cloud.google.com/apis/library/pubsub.googleapis.com) (take care to select the good one)
+- A [Service Account](https://console.cloud.google.com/iam-admin/serviceaccounts) for which one you need a credential JSON file (`creds.json` in example below), with roles:
+  - Pub/Sub Admin
 - A local environment with Python >= 3.8
 
 ### Installation
@@ -76,7 +78,7 @@ def route_test():
     return make_response('ok', 200)
 ```
 
-**WARNING**: do not forget to replace `<project_id>` with you GCP project ID (not number).
+**WARNING**: do not forget to replace `<project_id>` with you GCP project ID (not number) and to downloed the JSON-formatted key from GCP Console.
 
 `wsgi.py`
 ```python
@@ -127,6 +129,7 @@ status=processed message_id=6860318059876990 function=my_task result=ok executio
 
 - [ ] Priority in the treatment of messages per functions
 - [ ] Logging instead of print (+ option to format as JSON)
+- [ ] Contributing manual
 
 ### TO BE CONFIRMED
 
