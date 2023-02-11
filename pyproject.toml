@@ -20,6 +20,10 @@ dependencies = [
 ]
 dynamic = ["version"]
 
+[project.urls]
+"Homepage" = "https://github.com/wildsys/flask-gcp-pubsub"
+"Bug Tracker" = "https://github.com/wildsys/flask-gcp-pubsub/issues"
+
 [tool.poetry]
 packages = [
     {include = "flask_gcp_pubsub", from = "src/flask_gcp_pubsub"}

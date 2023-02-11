@@ -40,7 +40,7 @@ This package is given "as it", without garantees, under the GPLv3 License.
 - A GCP project ([here to create a new one](https://console.cloud.google.com/projectcreate)), with [Pub/Sub API enabled](https://console.cloud.google.com/apis/library/pubsub.googleapis.com) (take care to select the good one)
 - A [Service Account](https://console.cloud.google.com/iam-admin/serviceaccounts) for which one you need a credential JSON file (`creds.json` in example below), with roles:
   - Pub/Sub Admin
-- A local environment with Python >= 3.8
+- A local environment with Python >= 3.9
 
 ### Installation
 
