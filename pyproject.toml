@@ -20,7 +20,7 @@ dependencies = [
     "flask>=2.2,<2.3",
     "google-cloud-pubsub==2.14.1"
 ]
-version = "0.0.0"
+version = "0.1.0"
 
 [project.urls]
 "Homepage" = "https://github.com/wildsys/flask-gcp-pubsub"
