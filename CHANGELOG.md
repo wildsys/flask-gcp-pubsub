@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.0.1 (2023-02-11)
+### Fix
+* Reset version ([`d6e6e70`](https://github.com/wildsys/flask-gcp-pubsub/commit/d6e6e7073dc3776ecaa946e07f812f2d65e945aa))
+
 ## v0.1.0 (2023-02-11)
 ### Feature
 * Initial revision ([`3ed2f36`](https://github.com/wildsys/flask-gcp-pubsub/commit/3ed2f36381c8c57d36f33a1a0cf71207502ca5cc))
