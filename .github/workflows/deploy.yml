@@ -24,7 +24,7 @@ jobs:
           version=$(echo ${{ env.CI_REF_NAME }} | sed 's/^v//')
           sed -i "s/{{VERSION_PLACEHOLDER}}/${version}/g" pyproject.toml
           python -m build
-      - name: 🚀 Release to JFrog
+      - name: 🚀 Release to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           password: ${{ secrets.PYPI_API_TOKEN }}
