@@ -2,7 +2,7 @@
 
 Lite distributed task queue using Google Cloud Platform (GCP) Pub/Sub
 
-[![PyPI version](https://img.shields.io/pypi/v/flask-gcp-pubsub)](https://github.com/raicheff/flask-gcp-pubsub) [![PyPI downloads](https://img.shields.io/pypi/dm/flask-gcp-pubsub)](https://github.com/raicheff/flask-gcp-pubsub) [![GNU GPLv3](https://img.shields.io/github/license/wildsys/flask-pubsub)](https://www.gnu.org/licenses/gpl-3.0.html)
+[![PyPI version](https://img.shields.io/pypi/v/flask-gcp-pubsub)](https://github.com/wildsys/flask-gcp-pubsub) [![PyPI downloads](https://img.shields.io/pypi/dm/flask-gcp-pubsub)](https://github.com/wildsys/flask-gcp-pubsub) [![GNU GPLv3](https://img.shields.io/github/license/wildsys/flask-gcp-pubsub)](https://www.gnu.org/licenses/gpl-3.0.html)
 
 <!-- TOC depthfrom:2 -->
 
