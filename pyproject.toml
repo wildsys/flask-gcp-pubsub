@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=61.0.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -20,30 +20,11 @@ dependencies = [
     "flask>=2.2,<2.3",
     "google-cloud-pubsub==2.14.1"
 ]
-version = "0.0.1"
+version = "{{VERSION_PLACEHOLDER}}"
 
 [project.urls]
 "Homepage" = "https://github.com/wildsys/flask-gcp-pubsub"
 "Bug Tracker" = "https://github.com/wildsys/flask-gcp-pubsub/issues"
-
-[tool.poetry]
-name = "flask-gcp-pubsub"
-version = "0.0.1"
-description = "Google Pub/Sub as task manager, like Celery can do"
-license = "GPL-3.0-or-later"
-authors = [
-    "WildSys <hello@wildsys.io>"
-]
-packages = [
-    {include = "flask_gcp_pubsub", from = "src/flask_gcp_pubsub"}
-]
-
-[tool.semantic_release]
-version_variable = [
-    "pyproject.toml:version"
-]
-branch = "main"
-build_command = "pip install poetry && poetry build"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
