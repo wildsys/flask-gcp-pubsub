@@ -5,13 +5,17 @@ on:
       - main
 jobs:
   pypi:
-    name: Build and upload to PyPI
+    name: Create release tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: 🚀 Register new release
-        uses: relekang/python-semantic-release@master
+      - name: 🔖 Semantic release
+        uses: cycjimmy/semantic-release-action@v3
         with:
           github_token: ${{ secrets.GH_TOKEN }}
-          repository_username: __token__
-          repository_password: ${{ secrets.PYPI_API_TOKEN }}
+          branches: main
+          extra_plugins: |
+            @semantic-release/commit-analyzer
+            @semantic-release/release-notes-generator
+            @semantic-release/github
+            @semantic-release/git

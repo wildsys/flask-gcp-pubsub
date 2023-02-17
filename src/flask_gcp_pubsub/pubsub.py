@@ -18,6 +18,7 @@ class PubSub:
     gcp_pub_client = None
     gcp_sub_client = None
     project_id = None
+    topic_prefix = None
     concurrent_consumers = 4
     concurrent_messages = 2
     gcp_credentials_json = None
@@ -29,7 +30,8 @@ class PubSub:
         'PUBSUB_CREDENTIALS_JSON': 'gcp_credentials_json',
         'PUBSUB_CREDENTIALS_FILE': 'gcp_credentials_file',
         'PUBSUB_CONCURRENT_CONSUMERS': 'concurrent_consumers',
-        'PUBSUB_CONCURRENT_MESSAGES': 'concurrent_messages'
+        'PUBSUB_CONCURRENT_MESSAGES': 'concurrent_messages',
+        'PUBSUB_TOPIC_PREFIX': 'topic_prefix'
     }
 
     def __init__(self, app: Flask = None, **kwargs):
@@ -84,6 +86,8 @@ class PubSub:
 
     def create_topic(self, name):
         """Create a dedicated topic if needed"""
+        if self.topic_prefix:
+            name = f'{self.topic_prefix}_{name}'
         cli = self.get_pub_client()
         topic_path = cli.topic_path(self.project_id, name)
         topics = cli.list_topics(
@@ -111,9 +115,11 @@ class PubSub:
     def register_subscriber(self, func):
         """Create a subscription to the function"""
         identifier = func.__name__
+        if self.topic_prefix:
+            identifier = f'{self.topic_prefix}_{identifier}'
         cli_pub = self.get_pub_client()
         cli_sub = self.get_sub_client()
-        topic_path = cli_pub.topic_path(self.project_id, func.__name__)
+        topic_path = cli_pub.topic_path(self.project_id, identifier)
         subscription_path = cli_sub.subscription_path(self.project_id, identifier)
 
         subscriptions = cli_sub.list_subscriptions(

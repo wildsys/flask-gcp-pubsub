@@ -11,6 +11,7 @@ Lite distributed task queue using Google Cloud Platform (GCP) Pub/Sub
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Full example](#full-example)
+    - [Configuration](#configuration)
 - [🔮 Roadmap](#-roadmap)
     - [TO BE CONFIRMED](#to-be-confirmed)
 
@@ -124,6 +125,21 @@ status=received message_id=6860318059876990 function=my_task
 test test1 test2
 status=processed message_id=6860318059876990 function=my_task result=ok execution_time=6.818771362304688e-05
 ```
+
+### Configuration
+
+Configuration can be done using keyword arguments in class instantiation and/or flask environment variable (set with `config.update`).
+If both method used for one configuration key, the class instanciation is primary.
+
+| Flask env variable | Keyword argument | Usage | How-to get? |
+|-|-|-|-|
+| `PUBSUB_PROJECT_ID` | `project_id` | GCP project ID | See [console.cloud.google.com](https://console.cloud.google.com/) |
+| `PUBSUB_CREDENTIALS_JSON` | `gcp_credentials_json` | Service account credentials, as JSON string format | See IAM in [console.cloud.google.com](https://console.cloud.google.com/) |
+| `PUBSUB_CREDENTIALS_FILE` | `gcp_credentials_file` | Servicce account credentials, as JSON local file | See IAM in [console.cloud.google.com](https://console.cloud.google.com/) |
+| `PUBSUB_CONCURRENT_CONSUMERS` | `concurrent_consumers` | Number of simultaneous consumer (default: `4`) | |
+| `PUBSUB_CONCURRENT_MESSAGES` | `concurrent_messages` | Number of messages pull from topic per consumer per call (default: `2`) | |
+| `PUBSUB_TOPIC_PREFIX` | `topic_prefix` | Prefix for all topic used in the instance, useful for feature branches using same project. | |
+
 
 ## 🔮 Roadmap
 
