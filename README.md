@@ -11,6 +11,7 @@ Lite distributed task queue using Google Cloud Platform (GCP) Pub/Sub
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
     - [Full example](#full-example)
+    - [Bucket notification](#bucket-notification)
     - [Configuration](#configuration)
 - [🔮 Roadmap](#-roadmap)
     - [TO BE CONFIRMED](#to-be-confirmed)
@@ -124,6 +125,34 @@ Start consumers
 status=received message_id=6860318059876990 function=my_task
 test test1 test2
 status=processed message_id=6860318059876990 function=my_task result=ok execution_time=6.818771362304688e-05
+```
+
+### Bucket notification
+
+You can also create a task based on GCP Storage, by receiving a notification on any supported event from a bucket.
+
+```python
+@pubsub.bucket('bucket-flask-gcp', events=['OBJECT_FINALIZE'])
+def my_bucket_notifications_create(*args, **kwargs):
+    print('FINALIZE', args, kwargs)
+
+
+@pubsub.bucket('bucket-flask-gcp', events=['OBJECT_DELETE'])
+def my_bucket_notifications_delete(*args, **kwargs):
+    print('DELETE', args, kwargs)
+```
+
+For the specific Storage product, Google create a specific Service Account for specific actions, that you cannot choose. [You can found it here.](https://console.cloud.google.com/storage/settings;tab=project_access)
+
+You have to add the **Pub/Sub Admin** role for that particular Service Account in [IAM](https://console.cloud.google.com/iam-admin/iam).
+
+The *kwargs* returns [all attributes of the Pub/Sub notification](https://cloud.google.com/storage/docs/pubsub-notifications#attributes).
+
+If you change the function name, the auto-clean included at start-up cannot works. As you cannot excess 10 events per bucket, do not forget to clean previous subscription with commands:
+
+```shell
+gcloud storage buckets notifications list gs://<bucket_name>
+gcloud storage buckets notifications delete gs://<bucket_name>
 ```
 
 ### Configuration

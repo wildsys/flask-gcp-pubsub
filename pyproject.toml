@@ -18,7 +18,8 @@ classifiers = [
 ]
 dependencies = [
     "flask>=2.2,<2.3",
-    "google-cloud-pubsub==2.14.1"
+    "google-cloud-pubsub==2.14.1",
+    "google-cloud-storage==2.7.0"
 ]
 version = "{{VERSION_PLACEHOLDER}}"
 

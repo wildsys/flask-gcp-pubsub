@@ -5,8 +5,11 @@
 from flask import Flask
 from google.api_core import retry
 from google import pubsub
+from google.cloud import storage
 from google.oauth2 import service_account
 from .publisher import PubCatcher
+from .storage import BucketCatcher
+import google.auth
 import threading
 import traceback
 import time
@@ -18,6 +21,7 @@ class PubSub:
     flask = None
     gcp_pub_client = None
     gcp_sub_client = None
+    gcp_storage_client = None
     project_id = None
     topic_prefix = None
     concurrent_consumers = 4
@@ -62,6 +66,30 @@ class PubSub:
         }
         for cfgkey, cfgparams in check_keys.items():
             assert isinstance(getattr(self, cfgkey), cfgparams['type']), f'Invalid type expected for "{cfgkey}'
+
+    def get_oauth2_token(self):
+        credentials = None
+        scopes = [
+            "https://www.googleapis.com/auth/cloud-platform",
+            "https://www.googleapis.com/auth/devstorage.full_control"
+        ]
+        if self.gcp_credentials_json:
+            credentials = service_account.Credentials.from_service_account_info(self.gcp_credentials_json, scopes=scopes)
+        if self.gcp_credentials_file:
+            credentials = service_account.Credentials.from_service_account_file(self.gcp_credentials_file, scopes=scopes)
+        else:
+            credentials, _ = google.auth.default(scopes=scopes)
+
+        request = google.auth.transport.requests.Request()
+        credentials.refresh(request)
+        return credentials
+
+    def get_storage_client(self):
+        """Client to GCP Storage"""
+        if not self.gcp_storage_client:
+            credentials = self.get_oauth2_token()
+            self.gcp_storage_client = storage.Client(credentials=credentials)
+        return self.gcp_storage_client
 
     def get_pub_client(self):
         """Client Publisher to GCP Pub/Sub"""
@@ -113,7 +141,7 @@ class PubSub:
         print('received', message)
         message.ack()
 
-    def register_subscriber(self, func):
+    def register_subscriber(self, func, raw=False):
         """Create a subscription to the function"""
         identifier = func.__name__
         if self.topic_prefix:
@@ -146,7 +174,8 @@ class PubSub:
             'name': subscription_path,
             'topic': topic_path,
             'callback': func,
-            'weight': 5
+            'weight': 5,
+            'raw': raw
         })
 
     def pull_item(self):
@@ -165,9 +194,13 @@ class PubSub:
                 funcref = request['topic'].split('/')[-1]
                 for message in response.received_messages:
                     ack_ids.append(message.ack_id)
-                    data = json.loads(message.message.data)
-                    args = data.get('args', [])
-                    kwargs = data.get('kwargs', {})
+                    if request['raw']:
+                        args = []
+                        kwargs = message.message.attributes
+                    else:
+                        data = json.loads(message.message.data)
+                        args = data.get('args', [])
+                        kwargs = data.get('kwargs', {})
                     result = None
                     exec_time = time.time()
                     print(f'status=received message_id={message.message.message_id} function={funcref}')
@@ -202,3 +235,12 @@ class PubSub:
         topic = self.create_topic(f.__name__)
         self.register_subscriber(f)
         return PubCatcher(self.get_pub_client(), topic)
+
+    def bucket(self, bucket_name, **kwargs):
+        """Register a new task, based on bucket notification"""
+        def inner(f):
+            self.check_configuration()
+            topic = self.create_topic(f.__name__)
+            self.register_subscriber(f, True)
+            return BucketCatcher(self.get_storage_client(), topic, bucket_name, **kwargs)
+        return inner
