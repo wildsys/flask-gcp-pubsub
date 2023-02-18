@@ -8,6 +8,7 @@ from google import pubsub
 from google.oauth2 import service_account
 from .publisher import PubCatcher
 import threading
+import traceback
 import time
 import json
 
@@ -172,9 +173,9 @@ class PubSub:
                     print(f'status=received message_id={message.message.message_id} function={funcref}')
                     try:
                         result = request['callback'](*args, **kwargs)
-                    except Exception as e:
+                    except Exception:
                         result = 'crash'
-                        print(e)
+                        traceback.print_exc()
                     exec_time = time.time() - exec_time
                     print(f'status=processed message_id={message.message.message_id} function={funcref} result={result} execution_time={exec_time}')
 
