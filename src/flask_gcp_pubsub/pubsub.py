@@ -75,7 +75,7 @@ class PubSub:
         ]
         if self.gcp_credentials_json:
             credentials = service_account.Credentials.from_service_account_info(self.gcp_credentials_json, scopes=scopes)
-        if self.gcp_credentials_file:
+        elif self.gcp_credentials_file:
             credentials = service_account.Credentials.from_service_account_file(self.gcp_credentials_file, scopes=scopes)
         else:
             credentials, _ = google.auth.default(scopes=scopes)
