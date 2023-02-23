@@ -205,7 +205,11 @@ class PubSub:
                     exec_time = time.time()
                     print(f'status=received message_id={message.message.message_id} function={funcref}')
                     try:
-                        result = request['callback'](*args, **kwargs)
+                        if self.flask:
+                            with self.flask.app_context():
+                                result = request['callback'](*args, **kwargs)
+                        else:
+                            result = request['callback'](*args, **kwargs)
                     except Exception:
                         result = 'crash'
                         traceback.print_exc()
