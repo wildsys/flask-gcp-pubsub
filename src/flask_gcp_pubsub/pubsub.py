@@ -188,10 +188,10 @@ class PubSub:
             response = cli.pull(
                 request={
                     'subscription': request['name'],
-                    'max_messages': self.concurrent_messages
+                    'max_messages': self.concurrent_messages,
+                    'return_immediately': True
                 },
-                retry=retry.Retry(deadline=300),
-                return_immediately=True
+                retry=retry.Retry(deadline=300)
             )
             if len(response.received_messages) > 0:
                 ack_ids = []
