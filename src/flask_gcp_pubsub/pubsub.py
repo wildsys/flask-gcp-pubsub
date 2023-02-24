@@ -155,10 +155,11 @@ class PubSub:
         topic_path = cli_pub.topic_path(self.project_id, identifier)
         subscription_path = cli_sub.subscription_path(self.project_id, identifier)
 
-        subscriptions = cli_sub.list_subscriptions(
+        subscriptions = cli_sub.get_subscription(
             request={
-                'project': f'projects/{self.project_id}'
-            }
+                'subscription': subscription_path
+            },
+            retry=retry.Retry(deadline=300)
         )
 
         sub = None
