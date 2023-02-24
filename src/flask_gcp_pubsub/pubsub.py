@@ -159,7 +159,8 @@ class PubSub:
             request={
                 'subscription': subscription_path
             },
-            retry=retry.Retry(deadline=300)
+            retry=retry.Retry(deadline=300),
+            timeout=30
         )
         if not sub:
             sub = cli_sub.create_subscription(
