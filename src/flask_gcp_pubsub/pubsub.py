@@ -24,6 +24,7 @@ class PubSub:
     gcp_storage_client = None
     project_id = None
     topic_prefix = None
+    auto_setup = False
     concurrent_consumers = 4
     concurrent_messages = 2
     gcp_credentials_json = None
@@ -36,7 +37,8 @@ class PubSub:
         'PUBSUB_CREDENTIALS_FILE': 'gcp_credentials_file',
         'PUBSUB_CONCURRENT_CONSUMERS': 'concurrent_consumers',
         'PUBSUB_CONCURRENT_MESSAGES': 'concurrent_messages',
-        'PUBSUB_TOPIC_PREFIX': 'topic_prefix'
+        'PUBSUB_TOPIC_PREFIX': 'topic_prefix',
+        'PUBSUB_AUTO_SETUP': 'auto_setup'
     }
 
     def __init__(self, app: Flask = None, **kwargs):
@@ -246,5 +248,6 @@ class PubSub:
             self.check_configuration()
             topic = self.create_topic(f.__name__)
             self.register_subscriber(f, True)
+            kwargs['auto_setup'] = self.auto_setup
             return BucketCatcher(self.get_storage_client(), topic, bucket_name, **kwargs)
         return inner

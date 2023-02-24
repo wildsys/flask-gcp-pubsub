@@ -168,6 +168,7 @@ If both method used for one configuration key, the class instanciation is primar
 | `PUBSUB_CONCURRENT_CONSUMERS` | `concurrent_consumers` | Number of simultaneous consumer (default: `4`) | |
 | `PUBSUB_CONCURRENT_MESSAGES` | `concurrent_messages` | Number of messages pull from topic per consumer per call (default: `2`) | |
 | `PUBSUB_TOPIC_PREFIX` | `topic_prefix` | Prefix for all topic used in the instance, useful for feature branches using same project. | |
+| `PUBSUB_AUTO_SETUP` | `auto_setup` | Enable the auto-setup for Bucket notifications to Pub/Sub (default: `false`) | |
 
 
 ## 🔮 Roadmap
@@ -175,7 +176,7 @@ If both method used for one configuration key, the class instanciation is primar
 - [ ] Priority in the treatment of messages per functions
 - [ ] Logging instead of print (+ option to format as JSON)
 - [ ] Contributing manual
-- [ ] Documentation about Flask configuration keys and their counterpart on PubSub direct call
+- [*] Documentation about Flask configuration keys and their counterpart on PubSub direct call
 
 ### TO BE CONFIRMED
 

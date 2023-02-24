@@ -14,14 +14,15 @@ class BucketCatcher:
 
         filter_event = kwargs.get('events', None)
 
-        notifications = bucket.list_notifications()
-        for ntf in notifications:
-            if ntf.topic_name != topic_name:
-                continue
-            if filter_event is None and ntf.event_types is None:
-                ntf.delete()
-            elif filter_event and ntf.event_types and sorted(filter_event) == sorted(ntf.event_types):
-                ntf.delete()
+        if kwargs.get('auto_setup', False) is True:
+            notifications = bucket.list_notifications()
+            for ntf in notifications:
+                if ntf.topic_name != topic_name:
+                    continue
+                if filter_event is None and ntf.event_types is None:
+                    ntf.delete()
+                elif filter_event and ntf.event_types and sorted(filter_event) == sorted(ntf.event_types):
+                    ntf.delete()
 
-        notification = bucket.notification(topic_name=topic_name, event_types=filter_event)
-        notification.create()
+            notification = bucket.notification(topic_name=topic_name, event_types=filter_event)
+            notification.create()
