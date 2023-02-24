@@ -124,7 +124,8 @@ class PubSub:
         topics = cli.list_topics(
             request={
                 'project': f'projects/{self.project_id}'
-            }
+            },
+            retry=retry.Retry(deadline=300)
         )
         found = False
         for topic in topics:
@@ -189,7 +190,8 @@ class PubSub:
                     'subscription': request['name'],
                     'max_messages': self.concurrent_messages
                 },
-                retry=retry.Retry(deadline=300)
+                retry=retry.Retry(deadline=300),
+                return_immediately=True
             )
             if len(response.received_messages) > 0:
                 ack_ids = []
