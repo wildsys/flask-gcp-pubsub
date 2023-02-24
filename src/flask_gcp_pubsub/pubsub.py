@@ -155,18 +155,12 @@ class PubSub:
         topic_path = cli_pub.topic_path(self.project_id, identifier)
         subscription_path = cli_sub.subscription_path(self.project_id, identifier)
 
-        subscriptions = cli_sub.get_subscription(
+        sub = cli_sub.get_subscription(
             request={
                 'subscription': subscription_path
             },
             retry=retry.Retry(deadline=300)
         )
-
-        sub = None
-        for regsub in subscriptions:
-            if regsub.name == subscription_path:
-                sub = regsub
-                break
         if not sub:
             sub = cli_sub.create_subscription(
                 request={
