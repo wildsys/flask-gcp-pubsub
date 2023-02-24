@@ -176,7 +176,7 @@ If both method used for one configuration key, the class instanciation is primar
 - [ ] Priority in the treatment of messages per functions
 - [ ] Logging instead of print (+ option to format as JSON)
 - [ ] Contributing manual
-- [*] Documentation about Flask configuration keys and their counterpart on PubSub direct call
+- [x] Documentation about Flask configuration keys and their counterpart on PubSub direct call
 
 ### TO BE CONFIRMED
 
