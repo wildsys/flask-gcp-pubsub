@@ -121,23 +121,24 @@ class PubSub:
             name = f'{self.topic_prefix}_{name}'
         cli = self.get_pub_client()
         topic_path = cli.topic_path(self.project_id, name)
-        topics = cli.list_topics(
-            request={
-                'project': f'projects/{self.project_id}'
-            },
-            retry=retry.Retry(deadline=300)
-        )
-        found = False
-        for topic in topics:
-            if topic.name == topic_path:
-                found = True
-                break
-        if not found:
-            topic = cli.create_topic(
+        if self.auto_setup:
+            topics = cli.list_topics(
                 request={
-                    'name': topic_path
-                }
+                    'project': f'projects/{self.project_id}'
+                },
+                retry=retry.Retry(deadline=300)
             )
+            found = False
+            for topic in topics:
+                if topic.name == topic_path:
+                    found = True
+                    break
+            if not found:
+                topic = cli.create_topic(
+                    request={
+                        'name': topic_path
+                    }
+                )
         return topic_path
 
     def callback_subscription(self, message):
