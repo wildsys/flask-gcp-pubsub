@@ -168,7 +168,9 @@ If both method used for one configuration key, the class instanciation is primar
 | `PUBSUB_CONCURRENT_CONSUMERS` | `concurrent_consumers` | Number of simultaneous consumer (default: `4`) | |
 | `PUBSUB_CONCURRENT_MESSAGES` | `concurrent_messages` | Number of messages pull from topic per consumer per call (default: `2`) | |
 | `PUBSUB_TOPIC_PREFIX` | `topic_prefix` | Prefix for all topic used in the instance, useful for feature branches using same project. | |
-| `PUBSUB_AUTO_SETUP` | `auto_setup` | Enable the auto-setup for Bucket notifications to Pub/Sub (default: `false`) | |
+| `PUBSUB_AUTO_SETUP` | `auto_setup` | Enable the auto-setup for Topics creation and Bucket notifications to Pub/Sub (default: `false`) | |
+| `PUBSUB_DEADLINE` | `deadline` | Set deadline retry for all Pub/Sub operations (default: `300`) | |
+| `PUBSUB_PULL_RETURN_IMMEDIATELY` | `return_immediately` | Enable return `immediately flag` for pulling (default: `false`) | |
 
 
 ## 🔮 Roadmap

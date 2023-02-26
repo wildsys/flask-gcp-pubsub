@@ -29,6 +29,8 @@ class PubSub:
     concurrent_messages = 2
     gcp_credentials_json = None
     gcp_credentials_file = None
+    deadline = 300
+    return_immediately = False
     requests = []
     callbacks = {}
     configuration_table = {
@@ -38,7 +40,9 @@ class PubSub:
         'PUBSUB_CONCURRENT_CONSUMERS': 'concurrent_consumers',
         'PUBSUB_CONCURRENT_MESSAGES': 'concurrent_messages',
         'PUBSUB_TOPIC_PREFIX': 'topic_prefix',
-        'PUBSUB_AUTO_SETUP': 'auto_setup'
+        'PUBSUB_AUTO_SETUP': 'auto_setup',
+        'PUBSUB_DEADLINE': 'deadline',
+        'PUBSUB_PULL_RETURN_IMMEDIATELY': 'return_immediately'
     }
 
     def __init__(self, app: Flask = None, **kwargs):
@@ -126,7 +130,7 @@ class PubSub:
                 request={
                     'project': f'projects/{self.project_id}'
                 },
-                retry=retry.Retry(deadline=300)
+                retry=retry.Retry(deadline=self.deadline)
             )
             found = False
             for topic in topics:
@@ -159,7 +163,7 @@ class PubSub:
             request={
                 'subscription': subscription_path
             },
-            retry=retry.Retry(deadline=300),
+            retry=retry.Retry(deadline=self.deadline),
             timeout=30
         )
         if not sub:
@@ -186,9 +190,9 @@ class PubSub:
                 request={
                     'subscription': request['name'],
                     'max_messages': self.concurrent_messages,
-                    'return_immediately': True
+                    'return_immediately': self.return_immediately
                 },
-                retry=retry.Retry(deadline=300)
+                retry=retry.Retry(deadline=self.deadline)
             )
             if len(response.received_messages) > 0:
                 ack_ids = []
