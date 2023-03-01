@@ -195,10 +195,14 @@ class PubSub:
                 retry=retry.Retry(deadline=self.deadline)
             )
             if len(response.received_messages) > 0:
-                ack_ids = []
                 funcref = request['topic'].split('/')[-1]
                 for message in response.received_messages:
-                    ack_ids.append(message.ack_id)
+                    cli.acknowledge(
+                        request={
+                            'subscription': request['name'],
+                            'ack_ids': [message.ack_id]
+                        }
+                    )
                     if request['raw']:
                         args = []
                         kwargs = message.message.attributes
@@ -221,12 +225,6 @@ class PubSub:
                     exec_time = time.time() - exec_time
                     print(f'status=processed message_id={message.message.message_id} function={funcref} result={result} execution_time={exec_time}')
 
-                cli.acknowledge(
-                    request={
-                        'subscription': request['name'],
-                        'ack_ids': ack_ids
-                    }
-                )
                 return
 
     def run(self):
